@@ -1,0 +1,1 @@
+toy input for snakemake starter
