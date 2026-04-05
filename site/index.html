@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkillFoundry — AI for Science Skill Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <a class="logo" href="#">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M8 2L14 6v4l-6 4-6-4V6l6-4z" stroke="#fff" stroke-width="1.5" fill="none"/>
+        <circle cx="8" cy="8" r="2" fill="#fff"/>
+      </svg>
+    </div>
+    <span class="logo-text">SkillFoundry</span>
+  </a>
+  <div class="tab-strip" id="tab-strip">
+    <button class="tab-btn" data-tab="paper">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span>Project Page</span>
+    </button>
+    <button class="tab-btn active" data-tab="overview">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Overview</span>
+    </button>
+    <button class="tab-btn" data-tab="catalog">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span>Catalog</span>
+    </button>
+    <button class="tab-btn" data-tab="taxonomy">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+      <span>Taxonomy</span>
+    </button>
+  </div>
+  <div class="topbar-right">
+    <div class="badge-live"><div class="badge-live-dot"></div>Registry live</div>
+  </div>
+</nav>
+
+<!-- TAB PANELS (content injected by app.js from panels/*.html) -->
+<div class="page">
+  <div class="tab-panel active" id="panel-overview"></div>
+  <div class="tab-panel" id="panel-catalog"></div>
+  <div class="tab-panel" id="panel-taxonomy"></div>
+  <div class="tab-panel" id="panel-paper"></div>
+</div>
+
+<!-- SKILL DETAIL DRAWER -->
+<div class="sd-overlay" id="sd-overlay"></div>
+<aside class="sd-drawer" id="sd-drawer" role="dialog" aria-modal="true" aria-label="Skill detail">
+  <div class="sd-header">
+    <div class="sd-header-info">
+      <div class="sd-header-pills" id="sd-pills"></div>
+      <div class="sd-title" id="sd-title">Skill Detail</div>
+    </div>
+    <button class="sd-close" id="sd-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="sd-tabs" id="sd-tab-strip">
+    <button class="sd-tab active" type="button" data-sd-tab="guide">Guide</button>
+    <button class="sd-tab" type="button" data-sd-tab="meta">Metadata</button>
+    <button class="sd-tab" type="button" data-sd-tab="refs">References</button>
+    <button class="sd-tab" type="button" data-sd-tab="tests">Tests</button>
+    <div class="sd-tab-indicator" id="sd-tab-indicator"></div>
+  </nav>
+  <div class="sd-body" id="sd-body"></div>
+</aside>
+
+<script src="app.js"></script>
+</body>
+</html>

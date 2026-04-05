@@ -24,14 +24,27 @@ STAGE_OBJECTIVES = {
     ),
     "resource_search": (
         "Search broadly for canonical resources for the selected leaves, update the resource registries, "
-        "deduplicate new entries, and record provenance in experiments.md and progress files."
+        "deduplicate new entries, and record provenance in experiments.md and progress files. "
+        "Prioritize resources that provide concrete, executable guidance (official API docs, runnable "
+        "tutorials, reference implementations, package documentation with code examples) over "
+        "high-level overviews or survey papers. The downstream skill_build stage requires enough "
+        "detail to write operator-grade runbooks, so capture endpoint URLs, install commands, "
+        "version constraints, and example invocations when available."
     ),
     "skill_build": (
-        "Implement or improve concrete skills for the selected leaves. Reuse existing scripts, registries, "
-        "and skill patterns instead of creating parallel abstractions."
+        "Implement or improve concrete, operator-grade skills for the selected leaves. "
+        "Each skill must be a fully actionable runbook—not a toy example—with detailed step-by-step "
+        "execution instructions, explicit environment setup, comprehensive error handling, and "
+        "workspace-agnostic (path-portable) scripts and documentation. "
+        "Reuse existing scripts, registries, and skill patterns instead of creating parallel abstractions. "
+        "Apply every requirement listed in SKILL_QUALITY_STANDARDS below."
     ),
     "skill_test": (
         "Design and run repository-level smoke, regression, integration, and Slurm-facing checks for the updated skills. "
+        "In addition, verify that each tested skill meets the SKILL_QUALITY_STANDARDS: "
+        "check that SKILL.md contains all required sections (Environment Setup, Error Handling, "
+        "step-by-step Procedure, Validation), that no hardcoded absolute or repo-anchored paths appear "
+        "in SKILL.md or script source, and that the Procedure demonstrates realistic non-trivial usage. "
         "Only promote verification statuses after the corresponding checks pass."
     ),
     "refresh": (
@@ -39,6 +52,118 @@ STAGE_OBJECTIVES = {
         "after the changes from earlier stages."
     ),
 }
+
+# ---------------------------------------------------------------------------
+# Skill quality standards injected into every skill-building prompt.
+# ---------------------------------------------------------------------------
+SKILL_QUALITY_STANDARDS = """\
+SKILL_QUALITY_STANDARDS:
+Every skill created or significantly updated in this stage MUST satisfy ALL of the following requirements.
+These are not optional guidelines—they are hard requirements for skill acceptance.
+
+1. ACTIONABLE RUNBOOK — SKILL.md must be an operator-grade execution playbook, not a high-level summary.
+   - The Procedure section must contain numbered, concrete steps that an agent can execute directly.
+   - Each step must specify:
+       * The exact command or Python/shell snippet to run (not a placeholder like "run the script").
+       * What intermediate file or output is produced and its key fields or shape.
+       * How to inspect and validate the result at this checkpoint before proceeding to the next step.
+       * The decision logic to apply based on the observed result ("if X then Y, else Z").
+   - Include at least one realistic, non-trivial usage example that produces scientifically meaningful
+     output—not just a smoke-test or toy placeholder.
+   - If the skill wraps an external API, document: endpoint URL, authentication method,
+     rate limits, and a concrete retry strategy with example code.
+   - If the skill requires searching for data or references, provide explicit search guidance:
+       * Which databases, search engines, or repositories to query (e.g., PubMed, OpenAlex, PyPI,
+         GitHub, CELLxGENE, UniProt, NCBI, etc.).
+       * How to formulate effective queries with concrete example query strings.
+       * How to evaluate, rank, and select search results (what metadata to inspect, what criteria
+         to prefer, when to stop searching).
+       * How to download and verify the selected resource before using it.
+   - If the skill uses specific tools or libraries, show the concrete API usage:
+       * Import statements and initialization code.
+       * Key function calls with realistic argument values, not just `func(args)` placeholders.
+       * How to interpret the return values and handle edge cases (empty results, pagination, etc.).
+   - Separate the real-run workflow clearly from any deterministic CI/smoke-test path.
+
+2. ENVIRONMENT SETUP — dedicate a named section in SKILL.md titled "Environment Setup" (or "Requirements").
+   - List every required package with its installation command:
+       pip install <package>==<version>   # or conda equivalent
+   - State the minimum runtime version (Python ≥ X.Y, R ≥ X.Y, etc.) and any known version conflicts.
+   - Describe any environment variables or config files that must be set before running.
+   - Provide a "pre-flight check" the agent can run to verify the environment is ready, e.g.:
+       python3 -c "import scanpy; print(scanpy.__version__)"
+   - When a required package has version constraints (e.g., Python < 3.13), provide a working
+     environment-creation recipe:
+       conda create -n skill-env python=3.11 && conda activate skill-env && pip install ...
+   - Include a browser-based or offline fallback path when the primary package cannot be installed.
+   - If the skill depends on external CLI tools (e.g., bcftools, GATK, samtools, nextflow),
+     document how to install and verify them:
+       which bcftools && bcftools --version
+
+3. ERROR HANDLING — dedicate a named section in SKILL.md titled "Troubleshooting" or "Error Handling".
+   - Cover the 3–5 most common failure modes (network timeout, missing package, bad input format,
+     API auth failure, disk space, unexpected tool version, etc.).
+   - For each failure mode state:
+       * The recognizable symptom: exact error message, exit code, or observable behavior.
+       * A concrete, step-by-step remediation procedure.
+       * An alternate execution path or manual fallback when the primary tool is unavailable.
+   - Scripts themselves must handle errors gracefully: catch exceptions, emit a descriptive message
+     to stderr, and exit with a non-zero code—never silent failures or bare `except: pass`.
+
+4. PATH PORTABILITY — no hardcoded absolute or repo-anchored paths anywhere in SKILL.md or scripts.
+   - SKILL.md procedures and examples MUST NOT contain absolute paths (e.g., /Users/... /home/...).
+   - SKILL.md MUST NOT embed paths anchored to this specific repository layout.
+       BAD:  python3 skills/genomics/bcftools-variant-filtering-starter/scripts/run_bcftools.py
+       BAD:  --input skills/genomics/bcftools-variant-filtering-starter/examples/toy.vcf
+       GOOD: python3 scripts/run_bcftools.py              # documented as: run from the skill directory
+       GOOD: python3 run_bcftools.py                      # or: add the scripts/ dir to PATH
+       GOOD: python3 <skill_dir>/scripts/run_bcftools.py  # generic placeholder form
+   - All scripts must accept every input/output path as a command-line argument
+     (--input, --out, --workspace, etc.); never hardcode file paths inside script source code.
+   - Acceptable exception: test_commands in metadata.yaml may use the canonical
+     `skills/<domain>/<slug>/scripts/...` form relative to the repository root, since the
+     framework always runs them from the repo root. This exception does NOT extend to SKILL.md.
+
+5. SCRIPT DESIGN — every helper script in the skill's scripts/ directory must:
+   - Be self-contained: import only standard-library or well-known third-party packages
+     (declared in Environment Setup); do not import from other skills or internal framework modules.
+   - Accept ALL file paths (input data, output files, working directory, config) via command-line
+     arguments with argparse or equivalent. Provide sensible defaults only when portable
+     (e.g., default output to current directory, not a hardcoded repo path).
+   - Include a --help flag that documents every argument, its type, and a short usage example.
+   - Print a JSON summary on stdout (or write to --out) so downstream automation can parse results.
+   - Exit with code 0 on success, non-zero on failure; write diagnostics to stderr.
+   - Handle common edge cases: empty input, missing network, oversized files, unexpected types.
+   - Use an `if __name__ == "__main__":` guard so the script can also be imported as a module.
+
+6. COMPLETENESS — verify SKILL.md contains ALL of these named sections before finishing:
+   [ ] Purpose — 1–2 sentence functional description and primary use case
+   [ ] When to use / When not to use — precise boundary conditions and routing to adjacent skills
+   [ ] Environment Setup — packages, versions, pre-flight check, environment recipe if needed
+   [ ] Inputs — each input with: name, type/format, whether required or optional, example value
+   [ ] Outputs — each output with: filename pattern, format, key fields, and size/shape guidance
+   [ ] Procedure — numbered steps with exact commands, expected artifacts, and decision checkpoints
+   [ ] Troubleshooting / Error Handling — top failure modes with symptoms and remediation
+   [ ] Validation — how to confirm a successful end-to-end run, including expected output shape
+   [ ] Related Skills — cross-references to adjacent or prerequisite skills in the repository
+"""
+
+# Compact quality reminder injected into evaluation fix/optimize prompts.
+# Shorter than the full SKILL_QUALITY_STANDARDS since evaluation agents modify
+# skills that should already exist — this reminds them not to regress quality.
+EVALUATION_QUALITY_REMINDER = """\
+QUALITY MAINTENANCE REMINDER:
+While modifying this skill, ensure it continues to meet the repository quality bar:
+- SKILL.md must contain ALL required sections: Purpose, When to use/not to use, Environment Setup,
+  Inputs, Outputs, Procedure (concrete numbered steps), Troubleshooting, Validation, Related Skills.
+- No hardcoded absolute or repo-anchored paths in SKILL.md or scripts. Use portable forms:
+  `python3 scripts/<name>.py` (from skill dir) or `<skill_dir>/scripts/<name>.py` (placeholder).
+- Scripts must accept all file paths as command-line arguments (--input, --out, etc.).
+- The Procedure must give concrete, step-by-step commands with inspection checkpoints — not vague
+  instructions like "run the script and check results."
+- Scripts must exit non-zero on failure with descriptive stderr; no silent `except: pass`.
+Do not degrade documentation, portability, or error handling while applying fixes or optimizations.
+"""
 
 EVALUATION_REUSE_SURFACE = [
     "`scripts/validate_repository.py`",
@@ -130,6 +255,10 @@ def build_stage_prompt(
         "- `site/tree.json`",
         "- `task_plan.md`, `findings.md`, `progress.md`",
         "",
+    ]
+    if stage in ("skill_build", "skill_test"):
+        lines += [SKILL_QUALITY_STANDARDS, ""]
+    lines += [
         "ADDITIONAL_CONTEXT:",
         context_block,
         "",
@@ -181,6 +310,10 @@ def build_parallel_leaf_stage_prompt(
         "- When creating new file names, sanitize leaf labels into safe ASCII slugs: use dash-separated lowercase for skill directories and snake_case for `tests/test_*.py` files.",
         "- Avoid raw punctuation from taxonomy labels in filenames; convert characters such as `&`, `/`, or spaces into `-` or `_` first.",
         "",
+    ]
+    if stage in ("skill_build", "skill_test"):
+        lines += [SKILL_QUALITY_STANDARDS, ""]
+    lines += [
         "ADDITIONAL_CONTEXT:",
         context_block,
         "",
@@ -221,6 +354,8 @@ def build_design_skill_prompt(
         "- Build or refine a single concrete skill path for the user task.",
         "- Add or update repository-level tests and, if relevant, a Slurm exercise path.",
         "- Update registries, reports, and `experiments.md` if repository state changes.",
+        "",
+        SKILL_QUALITY_STANDARDS,
         "",
         "ADDITIONAL_CONTEXT:",
         context_block,
@@ -394,6 +529,10 @@ def build_layer1_fix_prompt(
         "- Apply a targeted fix instead of broad unrelated edits.",
         "- If the failure comes from missing tests or smoke coverage, repair the verification path too.",
         "- Write any temporary debug artifacts under the provided artifact directory.",
+        "- If the fix requires modifying SKILL.md or scripts, ensure the changes maintain path portability",
+        "  (no hardcoded repo-anchored paths) and that all required SKILL.md sections remain present.",
+        "",
+        EVALUATION_QUALITY_REMINDER,
         "",
         "ADDITIONAL_CONTEXT:",
         context_block,
@@ -489,6 +628,11 @@ def build_layer2_optimize_prompt(
         "- Focus on the specific deficits reported by the benchmark.",
         "- Preserve or improve correctness while optimizing for benchmark advantage.",
         "- Update tests or examples if they are the limiting factor.",
+        "- If the optimization requires rewriting SKILL.md procedures or scripts, ensure the changes",
+        "  strengthen the runbook quality (concrete steps, search guidance, error handling) rather than",
+        "  degrading it.",
+        "",
+        EVALUATION_QUALITY_REMINDER,
         "",
         "ADDITIONAL_CONTEXT:",
         context_block,

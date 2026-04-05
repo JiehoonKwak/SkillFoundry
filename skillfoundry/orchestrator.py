@@ -24,13 +24,13 @@ from .repository import SciSkillRepository, write_json
 DEFAULT_STAGE_MODEL_ROUTING: dict[str, dict[str, str]] = {
     "tree_check": {"model": "gpt-5.4", "reasoning_effort": "medium"},
     "resource_search": {"model": "gpt-5.4", "reasoning_effort": "high"},
-    "skill_build": {"model": "gpt-5.4", "reasoning_effort": "medium"},
-    "skill_test": {"model": "gpt-5.4-mini", "reasoning_effort": "medium"},
+    "skill_build": {"model": "gpt-5.4", "reasoning_effort": "high"},
+    "skill_test": {"model": "gpt-5.4", "reasoning_effort": "high"},
     "refresh": {"model": "gpt-5.4", "reasoning_effort": "medium"},
-    "design_skill": {"model": "gpt-5.4", "reasoning_effort": "medium"},
-    "layer1_fix": {"model": "gpt-5.4-mini", "reasoning_effort": "medium"},
+    "design_skill": {"model": "gpt-5.4", "reasoning_effort": "high"},
+    "layer1_fix": {"model": "gpt-5.4", "reasoning_effort": "medium"},
     "layer2_benchmark": {"model": "gpt-5.4-mini", "reasoning_effort": "medium"},
-    "layer2_optimize": {"model": "gpt-5.4-mini", "reasoning_effort": "medium"},
+    "layer2_optimize": {"model": "gpt-5.4", "reasoning_effort": "medium"},
     "novelty_check": {"model": "gpt-5.4-mini", "reasoning_effort": "medium"},
 }
 
