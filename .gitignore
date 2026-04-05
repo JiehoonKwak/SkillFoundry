@@ -219,6 +219,7 @@ __marimo__/
 
 scratch/
 slurm/
+CLAUDE.md
 AGENTS.md
 experiments.md
 findings.md
