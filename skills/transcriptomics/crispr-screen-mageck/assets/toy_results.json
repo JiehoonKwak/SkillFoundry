@@ -1,0 +1,446 @@
+{
+  "analysis": "crispr-screen-mageck",
+  "normalization": "median-ratio",
+  "control_samples": [
+    "ctrl_rep1",
+    "ctrl_rep2"
+  ],
+  "treatment_samples": [
+    "treatment_rep1",
+    "treatment_rep2"
+  ],
+  "size_factors": {
+    "ctrl_rep1": 1.0006,
+    "ctrl_rep2": 1.0251,
+    "treatment_rep1": 0.9759,
+    "treatment_rep2": 1.0002
+  },
+  "n_genes": 10,
+  "n_guides": 32,
+  "gene_summary": [
+    {
+      "gene": "TP53",
+      "n_guides": 4,
+      "neg": {
+        "rank": 1,
+        "score": 0.0,
+        "p_value": 0.0,
+        "fdr": 0.0,
+        "lfc": -2.7521
+      },
+      "pos": {
+        "rank": 7,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": -2.7521
+      },
+      "guides": [
+        {
+          "guide": "sgTP53_1",
+          "control_mean": 1258.5626,
+          "treatment_mean": 167.3433,
+          "log2fc": -2.9109,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgTP53_2",
+          "control_mean": 1159.8202,
+          "treatment_mean": 141.9746,
+          "log2fc": -3.0302,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgTP53_3",
+          "control_mean": 1002.3105,
+          "treatment_mean": 197.9596,
+          "log2fc": -2.3401,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgTP53_4",
+          "control_mean": 1061.6754,
+          "treatment_mean": 157.5933,
+          "log2fc": -2.7521,
+          "p_value": 0.0
+        }
+      ]
+    },
+    {
+      "gene": "RB1",
+      "n_guides": 3,
+      "neg": {
+        "rank": 2,
+        "score": 0.0,
+        "p_value": 0.0,
+        "fdr": 0.0,
+        "lfc": -2.8033
+      },
+      "pos": {
+        "rank": 8,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": -2.8033
+      },
+      "guides": [
+        {
+          "guide": "sgRB1_1",
+          "control_mean": 814.8195,
+          "treatment_mean": 116.7301,
+          "log2fc": -2.8033,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgRB1_2",
+          "control_mean": 755.6936,
+          "treatment_mean": 101.6083,
+          "log2fc": -2.8948,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgRB1_3",
+          "control_mean": 898.9298,
+          "treatment_mean": 162.3441,
+          "log2fc": -2.4692,
+          "p_value": 0.0
+        }
+      ]
+    },
+    {
+      "gene": "PTEN",
+      "n_guides": 3,
+      "neg": {
+        "rank": 3,
+        "score": 0.0,
+        "p_value": 0.0,
+        "fdr": 0.0,
+        "lfc": -2.7544
+      },
+      "pos": {
+        "rank": 9,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": -2.7544
+      },
+      "guides": [
+        {
+          "guide": "sgPTEN_1",
+          "control_mean": 617.3347,
+          "treatment_mean": 91.4856,
+          "log2fc": -2.7544,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgPTEN_2",
+          "control_mean": 567.9635,
+          "treatment_mean": 66.2412,
+          "log2fc": -3.1,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgPTEN_3",
+          "control_mean": 701.445,
+          "treatment_mean": 126.977,
+          "log2fc": -2.4658,
+          "p_value": 0.0
+        }
+      ]
+    },
+    {
+      "gene": "CDKN2A",
+      "n_guides": 3,
+      "neg": {
+        "rank": 4,
+        "score": 0.0,
+        "p_value": 0.0,
+        "fdr": 0.0,
+        "lfc": -2.046
+      },
+      "pos": {
+        "rank": 10,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": -2.046
+      },
+      "guides": [
+        {
+          "guide": "sgCDKN2A_1",
+          "control_mean": 879.4203,
+          "treatment_mean": 212.9573,
+          "log2fc": -2.046,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgCDKN2A_2",
+          "control_mean": 849.5586,
+          "treatment_mean": 192.712,
+          "log2fc": -2.1403,
+          "p_value": 0.0
+        },
+        {
+          "guide": "sgCDKN2A_3",
+          "control_mean": 899.1688,
+          "treatment_mean": 243.5735,
+          "log2fc": -1.8842,
+          "p_value": 0.0
+        }
+      ]
+    },
+    {
+      "gene": "ACTB",
+      "n_guides": 3,
+      "neg": {
+        "rank": 5,
+        "score": 0.53095,
+        "p_value": 0.53095,
+        "fdr": 1.0,
+        "lfc": 0.035
+      },
+      "pos": {
+        "rank": 6,
+        "score": 0.245669,
+        "p_value": 0.245669,
+        "fdr": 0.409448,
+        "lfc": 0.035
+      },
+      "guides": [
+        {
+          "guide": "sgACTB_1",
+          "control_mean": 1012.3042,
+          "treatment_mean": 987.1525,
+          "log2fc": -0.0363,
+          "p_value": 0.062863
+        },
+        {
+          "guide": "sgACTB_3",
+          "control_mean": 1012.9018,
+          "treatment_mean": 1037.7656,
+          "log2fc": 0.035,
+          "p_value": 0.740957
+        },
+        {
+          "guide": "sgACTB_2",
+          "control_mean": 987.6784,
+          "treatment_mean": 1013.0179,
+          "log2fc": 0.0365,
+          "p_value": 0.971922
+        }
+      ]
+    },
+    {
+      "gene": "MYC",
+      "n_guides": 3,
+      "neg": {
+        "rank": 6,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": 2.2851
+      },
+      "pos": {
+        "rank": 1,
+        "score": 0.0,
+        "p_value": 0.0,
+        "fdr": 0.0,
+        "lfc": 2.2851
+      },
+      "guides": [
+        {
+          "guide": "sgMYC_1",
+          "control_mean": 484.4508,
+          "treatment_mean": 2734.8593,
+          "log2fc": 2.497,
+          "p_value": 1.0
+        },
+        {
+          "guide": "sgMYC_2",
+          "control_mean": 509.0767,
+          "treatment_mean": 2481.1724,
+          "log2fc": 2.2851,
+          "p_value": 1.0
+        },
+        {
+          "guide": "sgMYC_3",
+          "control_mean": 484.2118,
+          "treatment_mean": 2177.4934,
+          "log2fc": 2.169,
+          "p_value": 1.0
+        }
+      ]
+    },
+    {
+      "gene": "KRAS",
+      "n_guides": 3,
+      "neg": {
+        "rank": 7,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": 2.1192
+      },
+      "pos": {
+        "rank": 2,
+        "score": 0.0,
+        "p_value": 0.0,
+        "fdr": 0.0,
+        "lfc": 2.1192
+      },
+      "guides": [
+        {
+          "guide": "sgKRAS_1",
+          "control_mean": 454.5891,
+          "treatment_mean": 1975.0407,
+          "log2fc": 2.1192,
+          "p_value": 1.0
+        },
+        {
+          "guide": "sgKRAS_2",
+          "control_mean": 429.9633,
+          "treatment_mean": 1772.588,
+          "log2fc": 2.0436,
+          "p_value": 1.0
+        },
+        {
+          "guide": "sgKRAS_3",
+          "control_mean": 464.4633,
+          "treatment_mean": 2076.2671,
+          "log2fc": 2.1604,
+          "p_value": 1.0
+        }
+      ]
+    },
+    {
+      "gene": "GAPDH",
+      "n_guides": 3,
+      "neg": {
+        "rank": 8,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": 0.0267
+      },
+      "pos": {
+        "rank": 5,
+        "score": 0.023553,
+        "p_value": 0.023553,
+        "fdr": 0.047107,
+        "lfc": 0.0267
+      },
+      "guides": [
+        {
+          "guide": "sgGAPDH_1",
+          "control_mean": 800.1874,
+          "treatment_mean": 800.07,
+          "log2fc": -0.0002,
+          "p_value": 0.495641
+        },
+        {
+          "guide": "sgGAPDH_2",
+          "control_mean": 830.0491,
+          "treatment_mean": 845.5598,
+          "log2fc": 0.0267,
+          "p_value": 0.753455
+        },
+        {
+          "guide": "sgGAPDH_3",
+          "control_mean": 780.4389,
+          "treatment_mean": 810.441,
+          "log2fc": 0.0544,
+          "p_value": 0.997376
+        }
+      ]
+    },
+    {
+      "gene": "NontargetingControl",
+      "n_guides": 4,
+      "neg": {
+        "rank": 9,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": 0.0657
+      },
+      "pos": {
+        "rank": 4,
+        "score": 0.005173,
+        "p_value": 0.005173,
+        "fdr": 0.012932,
+        "lfc": 0.0657
+      },
+      "guides": [
+        {
+          "guide": "sgNT_1",
+          "control_mean": 503.9603,
+          "treatment_mean": 501.3902,
+          "log2fc": -0.0074,
+          "p_value": 0.410686
+        },
+        {
+          "guide": "sgNT_3",
+          "control_mean": 509.0767,
+          "treatment_mean": 531.8823,
+          "log2fc": 0.0632,
+          "p_value": 0.930123
+        },
+        {
+          "guide": "sgNT_4",
+          "control_mean": 479.454,
+          "treatment_mean": 506.6378,
+          "log2fc": 0.0796,
+          "p_value": 0.96326
+        },
+        {
+          "guide": "sgNT_2",
+          "control_mean": 484.2118,
+          "treatment_mean": 506.762,
+          "log2fc": 0.0657,
+          "p_value": 0.975407
+        }
+      ]
+    },
+    {
+      "gene": "EGFR",
+      "n_guides": 3,
+      "neg": {
+        "rank": 10,
+        "score": 1.0,
+        "p_value": 1.0,
+        "fdr": 1.0,
+        "lfc": 1.1613
+      },
+      "pos": {
+        "rank": 3,
+        "score": 0.0,
+        "p_value": 0.0,
+        "fdr": 0.0,
+        "lfc": 1.1613
+      },
+      "guides": [
+        {
+          "guide": "sgEGFR_1",
+          "control_mean": 701.445,
+          "treatment_mean": 1568.8934,
+          "log2fc": 1.1613,
+          "p_value": 1.0
+        },
+        {
+          "guide": "sgEGFR_2",
+          "control_mean": 681.6965,
+          "treatment_mean": 1467.6671,
+          "log2fc": 1.1063,
+          "p_value": 1.0
+        },
+        {
+          "guide": "sgEGFR_3",
+          "control_mean": 721.1935,
+          "treatment_mean": 1670.1198,
+          "log2fc": 1.2115,
+          "p_value": 1.0
+        }
+      ]
+    }
+  ]
+}
